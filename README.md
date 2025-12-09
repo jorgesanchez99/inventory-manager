@@ -4,7 +4,9 @@ Sistema de gestión de inventario de productos desarrollado en Java con arquitec
 
 ## 📋 Descripción
 
-Inventory Manager es una aplicación de consola que permite gestionar un inventario de productos de manera sencilla y eficiente. El sistema implementa operaciones CRUD completas (Crear, Leer, Actualizar, Eliminar) con validaciones robustas, manejo de excepciones personalizadas y **persistencia de datos en archivo JSON** usando Gson.
+Inventory Manager es una aplicación de consola que permite gestionar un inventario de productos de manera sencilla y
+eficiente. El sistema implementa operaciones CRUD completas (Crear, Leer, Actualizar, Eliminar) con validaciones
+robustas, manejo de excepciones personalizadas y **persistencia de datos en archivo JSON** usando Gson.
 
 ## ✨ Características
 
@@ -68,20 +70,25 @@ inventory-manager/
 El proyecto sigue el patrón de arquitectura **MVC (Modelo-Vista-Controlador)**:
 
 ### Modelo (`model/`)
+
 - **Product**: Clase que representa un producto con sus atributos y validaciones
 - **Category**: Enum con las categorías disponibles
 
 ### Vista (`ui/`)
+
 - **UI**: Interfaz de usuario por consola que interactúa con el usuario
 
 ### Controlador (`controller/`)
+
 - **ProductController**: Gestiona las peticiones entre la UI y el servicio
 
 ### Servicio (`service/`)
+
 - **IProductService**: Define el contrato de operaciones
 - **ProductServiceImpl**: Implementa la lógica de negocio y persistencia de datos
 
 ### Excepciones (`exceptions/`)
+
 - **ProductException**: Manejo de errores personalizados
 
 ## 💾 Persistencia de Datos
@@ -134,8 +141,10 @@ Los productos se almacenan en `src/products.json` con la siguiente estructura:
 
 ### Funcionamiento
 
-- **Carga automática**: Al iniciar la aplicación, `ProductServiceImpl` lee el archivo `products.json` y carga todos los productos existentes
-- **Guardado automático**: Cada operación que modifica datos (crear, actualizar, eliminar) guarda automáticamente los cambios en el archivo JSON
+- **Carga automática**: Al iniciar la aplicación, `ProductServiceImpl` lee el archivo `products.json` y carga todos los
+  productos existentes
+- **Guardado automático**: Cada operación que modifica datos (crear, actualizar, eliminar) guarda automáticamente los
+  cambios en el archivo JSON
 - **IDs secuenciales**: El sistema calcula automáticamente el siguiente ID basándose en el ID más alto existente + 1
 - **Manejo de errores**: Si el archivo no existe, se crea uno nuevo al agregar el primer producto
 - **Pretty Printing**: El JSON se formatea con indentación para mejor legibilidad
@@ -146,7 +155,7 @@ Los productos se almacenan en `src/products.json` con la siguiente estructura:
 ✅ Formato JSON legible y editable manualmente  
 ✅ No requiere base de datos externa  
 ✅ Fácil de respaldar y transferir  
-✅ Compatible con cualquier editor de texto  
+✅ Compatible con cualquier editor de texto
 
 ## 🚀 Instalación y Ejecución
 
@@ -158,10 +167,13 @@ Los productos se almacenan en `src/products.json` con la siguiente estructura:
 ### Pasos para ejecutar
 
 1. **Clonar o descargar el proyecto**
+    ```powershell
+       git clone https://github.com/jorgesanchez99/inventory-manager.git
+   ```
 
 2. **Navegar al directorio del proyecto**
    ```powershell
-   cd E:\IntelliProjects\JavaEstudio\inventory-manager
+   cd inventory-manager
    ```
 
 3. **Compilar el proyecto con Maven**
@@ -205,6 +217,7 @@ Seleccione una opción (1-9):
 ### Operaciones Disponibles
 
 #### 1. Agregar Producto
+
 - Ingresa el nombre del producto
 - Especifica el precio (debe ser mayor que 0)
 - Define el stock (no puede ser negativo)
@@ -212,34 +225,42 @@ Seleccione una opción (1-9):
 - El producto se guarda automáticamente en `products.json`
 
 #### 2. Eliminar Producto
+
 - Proporciona el ID del producto a eliminar
 - El sistema confirmará la eliminación
 - Los cambios se guardan automáticamente
 
 #### 3. Actualizar Producto
+
 - Ingresa el ID del producto a actualizar
 - Proporciona los nuevos datos (nombre, precio, stock, categoría)
 - Los cambios se guardan automáticamente
 
 #### 4. Ver Productos
+
 - Muestra todos los productos registrados en el inventario
 - Formato: `Producto #ID: Nombre | Precio: $XX.XX | Stock: X unidades | Categoría: XXX`
 
 #### 5. Buscar por Nombre
+
 - Ingresa una palabra o parte del nombre
 - El sistema mostrará todos los productos que coincidan (búsqueda insensible a mayúsculas)
 
 #### 6. Ordenar por Nombre
+
 - Muestra los productos ordenados alfabéticamente (A-Z)
 
 #### 7. Ordenar por Precio
+
 - Muestra los productos ordenados de menor a mayor precio
 
 #### 8. Filtrar por Rango de Precio
+
 - Ingresa el precio mínimo y máximo
 - El sistema mostrará productos dentro de ese rango (inclusive)
 
 #### 9. Salir
+
 - Cierra la aplicación
 - Todos los datos quedan guardados en `products.json`
 
@@ -283,13 +304,13 @@ Después de este proceso, el archivo `products.json` se actualiza automáticamen
 
 El proyecto incluye un archivo `products.json` con 5 productos de ejemplo:
 
-| ID | Producto | Precio | Stock | Categoría |
-|----|----------|--------|-------|-----------|
-| 1 | Laptop Lenovo ThinkPad | $3,200.00 | 5 | Electrónicos |
-| 2 | Silla Ergonómica de Oficina | $450.00 | 12 | Oficina |
-| 3 | Polera Deportiva Nike | $159.90 | 20 | Moda |
-| 4 | LEGO Star Wars X-Wing | $899.00 | 8 | Juguetes |
-| 5 | Pelota de Fútbol Profesional | $120.00 | 15 | Deportes |
+| ID | Producto                     | Precio    | Stock | Categoría    |
+|----|------------------------------|-----------|-------|--------------|
+| 1  | Laptop Lenovo ThinkPad       | $3,200.00 | 5     | Electrónicos |
+| 2  | Silla Ergonómica de Oficina  | $450.00   | 12    | Oficina      |
+| 3  | Polera Deportiva Nike        | $159.90   | 20    | Moda         |
+| 4  | LEGO Star Wars X-Wing        | $899.00   | 8     | Juguetes     |
+| 5  | Pelota de Fútbol Profesional | $120.00   | 15    | Deportes     |
 
 Puedes modificar, eliminar o agregar productos directamente editando el archivo JSON o usando la aplicación.
 
@@ -306,6 +327,7 @@ NEW_CATEGORY("Descripción de la nueva categoría")
 ### Modificar Validaciones
 
 Las validaciones se encuentran en la clase `Product.java` en los métodos privados de validación:
+
 - `nonBlank()` - Valida campos de texto
 - `positivePrice()` - Valida el precio
 - `nonNegativeStock()` - Valida el stock
@@ -339,6 +361,7 @@ private final String PATH = "ruta/deseada/products.json";
 ## 🤝 Contribuciones
 
 Este es un proyecto educativo. Siéntete libre de:
+
 - Reportar bugs
 - Sugerir nuevas características
 - Mejorar el código existente

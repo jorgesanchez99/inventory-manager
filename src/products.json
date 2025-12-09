@@ -1,0 +1,37 @@
+[
+  {
+    "id": 1,
+    "name": "Laptop Lenovo ThinkPad",
+    "price": 3200.0,
+    "stock": 5,
+    "category": "ELECTRONIC"
+  },
+  {
+    "id": 2,
+    "name": "Silla Ergonómica de Oficina",
+    "price": 450.0,
+    "stock": 12,
+    "category": "OFFICE"
+  },
+  {
+    "id": 3,
+    "name": "Polera Deportiva Nike",
+    "price": 159.9,
+    "stock": 20,
+    "category": "FASHION"
+  },
+  {
+    "id": 4,
+    "name": "LEGO Star Wars X-Wing",
+    "price": 899.0,
+    "stock": 8,
+    "category": "TOYS"
+  },
+  {
+    "id": 5,
+    "name": "Pelota de Fútbol Profesional",
+    "price": 120.0,
+    "stock": 15,
+    "category": "SPORTS"
+  }
+]

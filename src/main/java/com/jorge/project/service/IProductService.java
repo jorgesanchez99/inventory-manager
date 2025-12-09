@@ -64,4 +64,6 @@ public interface IProductService {
      * @return Lista de productos dentro del rango de precios
      */
     List<Product> findByPriceInRange(double min, double max);
+
+
 }

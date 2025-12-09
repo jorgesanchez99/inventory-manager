@@ -43,11 +43,13 @@ public class ProductServiceImpl implements IProductService {
     @Override
     public boolean delete(int id) {
         Product product = findById(id);
+        if(product==null) return false;
         return products.remove(product);
     }
 
     @Override
     public List<Product> findByName(String namePart) {
+        if(namePart==null || namePart.isBlank()) return List.of(); // list empty
         return products.stream().filter(product ->
                 product.getName().toLowerCase().contains(namePart.toLowerCase())).toList();
     }

@@ -1,6 +1,7 @@
 package com.jorge.project.ui;
 
 import com.jorge.project.controller.ProductController;
+import com.jorge.project.exceptions.ProductException;
 import com.jorge.project.model.Category;
 import com.jorge.project.model.Product;
 
@@ -39,22 +40,28 @@ public class UI {
     public void run() {
         System.out.println("¡Bienvenido al sistema de gestión de productos!");
         while (true) {
-            displayMenu();
-            String option = nonBlank(SELECT_OPTION, "opción");
-            switch (option) {
-                case "1" -> addProductView();
-                case "2" -> deleteProductView();
-                case "3" -> updateProductView();
-                case "4" -> getProductsView();
-                case "5" -> getProductsByNameView();
-                case "6" -> sortProductsByNameView();
-                case "7" -> sortProductsByPriceView();
-                case "8" -> getProductsByPriceRangeView();
-                case "9" -> {
-                    System.out.println("Saliendo del sistema. ¡Hasta luego!");
-                    return;
+            try {
+                displayMenu();
+                String option = nonBlank(SELECT_OPTION, "opción");
+                switch (option) {
+                    case "1" -> addProductView();
+                    case "2" -> deleteProductView();
+                    case "3" -> updateProductView();
+                    case "4" -> getProductsView();
+                    case "5" -> getProductsByNameView();
+                    case "6" -> sortProductsByNameView();
+                    case "7" -> sortProductsByPriceView();
+                    case "8" -> getProductsByPriceRangeView();
+                    case "9" -> {
+                        System.out.println("Saliendo del sistema. ¡Hasta luego!");
+                        return;
+                    }
+                    default -> showError("Opción inválida. Inténtelo de nuevo.");
                 }
-                default -> showError("Opción inválida. Inténtelo de nuevo.");
+            } catch (ProductException e) {
+                showError(e.getMessage());
+            } catch (RuntimeException e) {
+                showError("Ha ocurrido un error inesperado" );
             }
         }
 

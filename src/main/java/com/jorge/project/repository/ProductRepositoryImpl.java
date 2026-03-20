@@ -9,7 +9,7 @@ import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
 
-public class ProductRepositoryImp implements IProductRepository {
+public class ProductRepositoryImpl implements IProductRepository {
 
 
     @Override

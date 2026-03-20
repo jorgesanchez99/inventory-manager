@@ -7,6 +7,7 @@ import com.jorge.project.model.Product;
 
 
 import java.util.List;
+import java.util.NoSuchElementException;
 import java.util.Scanner;
 
 public class UI {
@@ -60,8 +61,10 @@ public class UI {
                 }
             } catch (ProductException e) {
                 showError(e.getMessage());
+            }catch (NoSuchElementException e){
+              break;
             } catch (RuntimeException e) {
-                showError("Ha ocurrido un error inesperado" );
+                showError("Ha ocurrido un error inesperado.");
             }
         }
 

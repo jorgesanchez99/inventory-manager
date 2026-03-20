@@ -20,6 +20,14 @@ public class Product {
         this.category = validateCategory(category, "Categoría");
     }
 
+    public Product(int id, String name, double price, int stock, Category category) {
+        setId(id);
+        this.name = nonBlank(name, "Nombre");
+        this.price = positivePrice(price, "Precio");
+        this.stock = nonNegativeStock(stock, "Stock");
+        this.category = validateCategory(category, "Categoría");
+    }
+
     public int getId() {
         return id;
     }

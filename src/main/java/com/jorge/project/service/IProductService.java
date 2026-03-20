@@ -56,6 +56,15 @@ public interface IProductService {
     List<Product> findByName(String namePart);
 
 
+        /**
+     * Busca si el producto ya existe mediante la coincidencia exacta del nombre
+     *
+     * @param namePart texto para buscar por nombre
+     * @return Lista de productos que coinciden con la búsqueda
+     */
+    List<Product> findByExactName(String namePart);
+
+
     /**
      * Busca productos dentro de un rango de precios
      *

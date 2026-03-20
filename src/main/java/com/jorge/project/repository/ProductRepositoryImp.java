@@ -79,7 +79,7 @@ public class ProductRepositoryImp implements IProductRepository {
             }
 
         } catch (SQLException e) {
-            System.out.println("Error al buscar el producto por id: " + e.getMessage());
+            throw new ProductException("Error al buscar el producto por id: " + e.getMessage());
         }
         return null;
     }
@@ -101,7 +101,7 @@ public class ProductRepositoryImp implements IProductRepository {
             int row = statement.executeUpdate();
             if (row >= 1) return true;
         } catch (SQLException e) {
-            System.out.println("Error al actualizar el producto: " + e.getMessage());
+            throw new  ProductException("Error al actualizar el producto: " + e.getMessage());
         }
         return false;
     }
@@ -116,7 +116,7 @@ public class ProductRepositoryImp implements IProductRepository {
             int row = statement.executeUpdate();
             if (row > 0) return true;
         } catch (SQLException e) {
-            System.out.println("Error al eliminar el producto: " + e.getMessage());
+            throw new ProductException("Error al eliminar el producto: " + e.getMessage());
         }
         return false;
     }
@@ -126,7 +126,7 @@ public class ProductRepositoryImp implements IProductRepository {
         String sql = "SELECT * FROM products WHERE name ILIKE  ? ";
         if (namePart == null || namePart.isBlank())
             throw new ProductException("El texto de búsqueda no puede estar vacío");
-        namePart = "%" + namePart + "%";
+        namePart = "%" + namePart.trim() + "%";
         List<Product> products = new ArrayList<>();
         try (Connection connection = DatabaseConnection.getConnection();
              PreparedStatement statement = connection.prepareStatement(sql)
@@ -145,7 +145,35 @@ public class ProductRepositoryImp implements IProductRepository {
 
 
         } catch (SQLException e) {
-            System.out.println("Error al buscar productos por nombre: " + e.getMessage());
+            throw new ProductException("Error al buscar productos por nombre: " + e.getMessage());
+        }
+        return products;
+    }
+
+    @Override
+    public List<Product> findByExactName(String namePart) {
+        String sql = "SELECT * FROM products WHERE name ILIKE ? ";
+        if (namePart == null || namePart.isBlank())
+            throw new ProductException("El texto de búsqueda no puede estar vacío");
+        List<Product> products = new ArrayList<>();
+        try (Connection connection = DatabaseConnection.getConnection();
+             PreparedStatement statement = connection.prepareStatement(sql)
+        ) {
+            statement.setString(1, namePart.trim());
+            ResultSet resultSet = statement.executeQuery();
+            while (resultSet.next()) {
+                products.add(new Product(
+                        resultSet.getInt("id"),
+                        resultSet.getString("name"),
+                        resultSet.getDouble("price"),
+                        resultSet.getInt("stock"),
+                        Category.valueOf(resultSet.getString("category"))
+                ));
+            }
+
+
+        } catch (SQLException e) {
+            throw new ProductException("Error al buscar productos por nombre: " + e.getMessage());
         }
         return products;
     }
@@ -173,7 +201,7 @@ public class ProductRepositoryImp implements IProductRepository {
             }
 
         } catch (SQLException e) {
-            System.out.println("Error al buscar productos por rango de precio: " + e.getMessage());
+            throw new ProductException("Error al buscar productos por rango de precio: " + e.getMessage());
         }
         return products;
     }

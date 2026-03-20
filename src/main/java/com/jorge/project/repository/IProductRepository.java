@@ -12,5 +12,6 @@ public interface IProductRepository {
     boolean update(int id, Product product);
     boolean delete(int id);
     List<Product> findByName(String namePart);
+    List<Product> findByExactName(String namePart);
     List<Product> findByPriceInRange(double min, double max);
 }

@@ -5,7 +5,7 @@ import com.jorge.project.exceptions.ProductException;
 import com.jorge.project.model.Product;
 import com.jorge.project.repository.IProductRepository;
 
-import java.io.*;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -21,7 +21,7 @@ public class ProductServiceImpl implements IProductService {
     @Override
     public void create(Product product) {
         if (product == null) throw new ProductException("El producto no puede ser nulo");
-        if (!findByName(product.getName()).isEmpty()) throw new ProductException("El producto ya existe");
+        if (!findByExactName(product.getName()).isEmpty()) throw new ProductException("El producto ya existe");
         if (product.getStock() < 0) throw new ProductException("El stock debe ser mayor o igual a 0");
 
         productRepository.save(product);
@@ -47,7 +47,7 @@ public class ProductServiceImpl implements IProductService {
         if (product.getPrice() > (productDB.getPrice() * 2)) {
             throw new ProductException("El precio no puede ser mayor que 2 veces el precio anterior");
         }
-        if(product.getCategory() != productDB.getCategory() && productDB.getStock() > 0) {
+        if (product.getCategory() != productDB.getCategory() && productDB.getStock() > 0) {
             throw new ProductException("No se puede cambiar la categoría de un producto con stock disponible");
         }
 
@@ -68,6 +68,13 @@ public class ProductServiceImpl implements IProductService {
         if (namePart == null || namePart.isBlank()) return new ArrayList<>(); // list empty
         return productRepository.findByName(namePart);
     }
+
+    @Override
+    public List<Product> findByExactName(String name) {
+        if (name == null || name.isBlank()) return new ArrayList<>(); // list empty
+        return productRepository.findByExactName(name);
+    }
+
 
     @Override
     public List<Product> findByPriceInRange(double min, double max) {

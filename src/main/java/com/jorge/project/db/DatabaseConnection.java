@@ -1,16 +1,20 @@
 package com.jorge.project.db;
 
+
+import io.github.cdimascio.dotenv.Dotenv;
+
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
 
 public class DatabaseConnection {
 
-    // static -> pertenecen a la clase
+     // static -> pertenecen a la clase
     // final ->  constantes que no cambian
-    private static final String URL = "jdbc:postgresql://localhost:5432/inventory_db";
-    private static final String USER = "postgres";
-    private static final String PASSWORD = "12345";
+    private static final Dotenv dotenv = Dotenv.load();
+    private static final String URL  = dotenv.get("DB_URL");
+    private static final String USER  = dotenv.get("DB_USER");
+    private static final String PASSWORD = dotenv.get("DB_PASSWORD");
 
     // La única instancia de esta clase
     private static DatabaseConnection instance;

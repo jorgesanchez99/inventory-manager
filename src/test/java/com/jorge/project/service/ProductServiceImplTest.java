@@ -5,6 +5,7 @@ import com.jorge.project.exceptions.ProductException;
 import com.jorge.project.model.Category;
 import com.jorge.project.model.Product;
 import com.jorge.project.repository.ProductRepositoryImpl;
+import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
@@ -23,10 +24,10 @@ import static org.mockito.Mockito.any;
 public class ProductServiceImplTest {
 
     @Mock
-    ProductRepositoryImpl productRepository;
+    private ProductRepositoryImpl productRepository;
 
     @InjectMocks
-    ProductServiceImpl productService;
+    private ProductServiceImpl productService;
 
     @Test
     void shouldThrowExceptionWhenProductIsNull() {
@@ -37,7 +38,7 @@ public class ProductServiceImplTest {
 
     @Test
     void shouldThrowExceptionWhenProductAlreadyExists() {
-        when(productRepository.findByExactName("Producto1")).thenReturn((List<Product>) List.of(new Product("Producto1", 100.0, 100, Category.ELECTRONIC)));
+        when(productRepository.findByExactName("Producto1")).thenReturn(List.of(new Product("Producto1", 100.0, 100, Category.ELECTRONIC)));
         assertThrows(ProductException.class, () -> {
             productService.create(new Product("Producto1", 10.0, 10, Category.ELECTRONIC));
         });
@@ -55,6 +56,6 @@ public class ProductServiceImplTest {
     void shouldSuccessfullyCreateProduct() {
         when(productRepository.findByExactName("Producto1")).thenReturn(new ArrayList<Product>());
         productService.create(new Product("Producto1", 10.0, 10, Category.ELECTRONIC));
-        verify(productRepository).save(any());
+        verify(productRepository).save(new Product("Producto1", 10.0, 10, Category.ELECTRONIC));
     }
 }

@@ -37,6 +37,7 @@ public class ProductServiceImplTest {
         productToUpdate = new Product("Producto1", 150.0, 10, Category.ELECTRONIC);
     }
 
+    //Test para create
     @Test
     void shouldThrowExceptionWhenProductIsNull() {
         assertThrows(ProductException.class, () -> {
@@ -68,6 +69,7 @@ public class ProductServiceImplTest {
     }
 
 
+    //Test para delete
     @Test
     void shouldReturnFalseWhenProductNotFound() {
         when(productRepository.findById(1)).thenReturn(null);
@@ -90,6 +92,7 @@ public class ProductServiceImplTest {
         assertTrue(result);
     }
 
+    //Test para update
     @Test
     void shouldThrowExceptionWhenIdIsInvalid() {
         assertThrows(ProductException.class, () -> productService.update(0, product));
@@ -126,6 +129,8 @@ public class ProductServiceImplTest {
         assertTrue(result);
     }
 
+
+    //Test para findByPriceInRange
     @Test
     void shouldThrowExceptionWhenAnyPriceIsZeroOrNegative() {
         assertAll(
@@ -152,6 +157,73 @@ public class ProductServiceImplTest {
         List<Product> products = productService.findByPriceInRange(50, 500);
         assertEquals(List.of(product), products);
 
+    }
+
+    //Test para findAll
+    @Test
+    void shouldReturnEmptyListWhenNoProductsExists() {
+        when(productRepository.findAll()).thenReturn(List.of());
+        List<Product> products = productService.findAll();
+        assertEquals(List.of(), products);
+    }
+
+    @Test
+    void shouldReturnListWithProductsWhenProductsExists() {
+        when(productRepository.findAll()).thenReturn(List.of(product));
+        List<Product> products = productService.findAll();
+        assertEquals(List.of(product), products);
+    }
+
+    //Test para findById
+    @Test
+    void shouldThrowExceptionWhenProductNotFound() {
+        when(productRepository.findById(1)).thenReturn(null);
+        Product productFound = productService.findById(1);
+        assertNull(productFound);
+    }
+
+    @Test
+    void shouldReturnProductWhenProductFound() {
+        when(productRepository.findById(1)).thenReturn(product);
+        Product productFound = productService.findById(1);
+        assertEquals(product, productFound);
+    }
+
+
+    //Test para findByName
+    @Test
+    void shouldReturnEmptyListWhenProductNameIsNull() {
+        assertEquals(List.of(), productService.findByName(null));
+    }
+
+    @Test
+    void shouldReturnEmptyListWhenProductNameIsBlank() {
+        assertEquals(List.of(), productService.findByName("   "));
+    }
+
+    @Test
+    void shouldReturnListWithProductsWhenProductNameIsValid() {
+        when(productRepository.findByName("Producto1")).thenReturn(List.of(product));
+        List<Product> products = productService.findByName("Producto1");
+        assertEquals(List.of(product), products);
+    }
+
+    //Test para findByExactName
+    @Test
+    void shouldReturnEmptyListWhenProductExactNameIsNull() {
+        assertEquals(List.of(), productService.findByExactName(null));
+    }
+
+    @Test
+    void shouldReturnEmptyListWhenProductExactNameIsBlank() {
+        assertEquals(List.of(), productService.findByExactName("   "));
+    }
+
+    @Test
+    void shouldReturnListWithProductsWhenProductExactNameIsValid() {
+        when(productRepository.findByExactName("Producto1")).thenReturn(List.of(product));
+        List<Product> products = productService.findByExactName("Producto1");
+        assertEquals(List.of(product), products);
     }
 
 

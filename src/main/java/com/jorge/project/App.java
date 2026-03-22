@@ -1,6 +1,7 @@
 package com.jorge.project;
 
 import com.jorge.project.controller.ProductController;
+import com.jorge.project.db.DatabaseConnection;
 import com.jorge.project.repository.IProductRepository;
 import com.jorge.project.repository.ProductRepositoryImpl;
 import com.jorge.project.service.IProductService;
@@ -15,5 +16,6 @@ public class App {
         ProductController productController = new ProductController(productService);
         UI ui = new UI(productController);
         ui.run();
+        DatabaseConnection.closePool();
     }
 }

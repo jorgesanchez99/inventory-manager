@@ -1,46 +1,51 @@
 package com.jorge.project.db;
 
-
+import com.zaxxer.hikari.HikariConfig;
+import com.zaxxer.hikari.HikariDataSource;
 import io.github.cdimascio.dotenv.Dotenv;
 
 import java.sql.Connection;
-import java.sql.DriverManager;
 import java.sql.SQLException;
 
 public class DatabaseConnection {
 
-     // static -> pertenecen a la clase
+    // static -> pertenecen a la clase
     // final ->  constantes que no cambian
     private static final Dotenv dotenv = Dotenv.load();
-    private static final String URL  = dotenv.get("DB_URL");
-    private static final String USER  = dotenv.get("DB_USER");
+    private static final String URL = dotenv.get("DB_URL");
+    private static final String USER = dotenv.get("DB_USER");
     private static final String PASSWORD = dotenv.get("DB_PASSWORD");
 
-    // La única instancia de esta clase
-    private static DatabaseConnection instance;
+    private static HikariDataSource dataSource;
 
-    // conexión compartida
-    private Connection connection;
+    static {
+        System.out.println("Bloque static: Pool de conexiones inicializado");
 
-    // Private para que nadie pueda hacer new DatabaseConnection()
-    private DatabaseConnection() {
-        try {
-            this.connection = DriverManager.getConnection(URL, USER, PASSWORD);
-            //System.out.println("Conexión exitosa a la base de datos.");
-        } catch (SQLException e) {
-            throw new RuntimeException("Error al conectar a la base de datos: " + e.getMessage());
-        }
+        HikariConfig config = new HikariConfig();
+        config.setJdbcUrl(URL);
+        config.setUsername(USER);
+        config.setPassword(PASSWORD);
+
+        config.setMaximumPoolSize(10); //maximo 10 conexiones
+        config.setMinimumIdle(2); //minimo 2 conexiones inactivas
+
+        config.setIdleTimeout(30000); //tiempo de inactividad
+        config.setConnectionTimeout(30000); //tiempo de espera para obtener una conexion
+
+        config.setLeakDetectionThreshold(15000); //deteccion de fugas de conexion
+
+        dataSource = new HikariDataSource(config);
     }
 
-    // Retorna siempre la misma instancia
-    public static Connection getConnection() {
-        try {
-            if (instance == null || instance.connection.isClosed()) {
-                instance = new DatabaseConnection();
-            }
-        } catch (SQLException e) {
-            throw new RuntimeException("Error al conectar a la base de datos: " + e.getMessage());
+
+    public static Connection getConnection() throws SQLException {
+        return dataSource.getConnection();
+    }
+
+    public static void closePool() {
+        if (dataSource != null && !dataSource.isClosed()) {
+            dataSource.close();
+            System.out.println("Connection pool cerrado.");
         }
-        return instance.connection;
     }
 }

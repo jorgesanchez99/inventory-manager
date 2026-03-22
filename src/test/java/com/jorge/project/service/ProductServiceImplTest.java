@@ -12,7 +12,6 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.*;
@@ -63,7 +62,7 @@ public class ProductServiceImplTest {
 
     @Test
     void shouldSuccessfullyCreateProduct() {
-        when(productRepository.findByExactName("Producto1")).thenReturn(new ArrayList<Product>());
+        when(productRepository.findByExactName("Producto1")).thenReturn(List.of());
         productService.create(product);
         verify(productRepository).save(product);
     }
@@ -176,7 +175,7 @@ public class ProductServiceImplTest {
 
     //Test para findById
     @Test
-    void shouldThrowExceptionWhenProductNotFound() {
+    void shouldReturnNullProductNotFound() {
         when(productRepository.findById(1)).thenReturn(null);
         Product productFound = productService.findById(1);
         assertNull(productFound);
